@@ -1,4 +1,6 @@
-import os
+dic = {"a": 1, "b": 2}
 
-current_path = os.path.dirname(__file__)
-print(current_path)
+try:
+    dic["c"]
+except KeyError:
+    print("fuck")

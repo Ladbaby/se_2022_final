@@ -1,0 +1,125 @@
+<div>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+</div>
+
+<div>
+    <label for="pass">Password (8 characters minimum):</label>
+    <input type="password" id="password" name="password" required>
+</div>
+
+<div id = "login">
+    <button>login</button>
+    <div></div>
+</div>
+
+<div id = "logout">
+    <button>logout</button>
+    <div></div>
+</div>
+
+<div>
+    <label>address</label>
+    <input type="text" id="address">
+</div>
+
+<div>
+    <label>size</label>
+    <input type = "number" min="1" max = "10" id = "size">
+</div>
+
+<div>
+    <label>location</label>
+    <input type = "text" id = location>
+</div>
+
+<div id = "submit">
+    <button>submit</button>
+    <div></div>
+</div>
+
+<script>
+    let login_button = document.querySelector('div#login button')
+    let logout_button = document.querySelector('div#logout button')
+    let submit_button = document.querySelector('div#submit button')
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+            return cookieValue;
+        }
+
+    login_button.addEventListener('click', function(){
+        let username = document.querySelector('input#username').value;
+        let password = document.querySelector('input#password').value;
+        const login_info = {
+            "auth": {
+                "user-name": username,
+                "password": password
+            }
+        };
+        var req = new XMLHttpRequest();
+        req.addEventListener('load', function(){
+            document.querySelector('div#login div').innerHTML = req.status;
+        })
+        req.open('POST', 'login/');
+        req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        const csrftoken = getCookie('csrftoken');
+        req.setRequestHeader('X-CSRFToken', csrftoken);
+        req.send(JSON.stringify(login_info));
+    })
+
+    logout_button.addEventListener('click', function(){
+        var req = new XMLHttpRequest();
+        req.addEventListener('load', function(){
+            document.querySelector('div#logout div').innerHTML = req.status;
+        })
+        req.open('POST', 'logout/');
+        const csrftoken = getCookie('csrftoken');
+        req.setRequestHeader('X-CSRFToken', csrftoken);
+        req.send();
+    })
+
+    submit_button.addEventListener('click', function(){
+        let address = document.querySelector('input#address').value
+        let size = document.querySelector('input#size').value
+        let location = document.querySelector('input#location').value
+        const info = {
+            "pathole":{
+                "address": address,
+                "size": size,
+                "location": location
+            }
+        }
+        var req = new XMLHttpRequest()
+        req.addEventListener('load', function(){
+            document.querySelector('div#submit div').innerHTML = req.status
+        })
+        req.open('POST', 'submit/')
+        req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+        const csrftoken = getCookie('csrftoken')
+        req.setRequestHeader('X-CSRFToken', csrftoken)
+        req.send(JSON.stringify(info))
+    })
+
+
+
+
+
+
+
+
+
+
+
+</script>

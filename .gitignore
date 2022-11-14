@@ -26,3 +26,4 @@ pnpm-debug.log*
 # pycache
 utility/__pycache__
 server/__pycache__
+server/migrations/__pycache__
