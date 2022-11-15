@@ -38,10 +38,17 @@
     <div></div>
 </div>
 
+<div id = "check-submit">
+    <button>check-submit</button>
+    <pre></pre>
+</div>
+
+
 <script>
     let login_button = document.querySelector('div#login button')
     let logout_button = document.querySelector('div#logout button')
     let submit_button = document.querySelector('div#submit button')
+    let check_button = document.querySelector('div#check-submit button')
 
     function getCookie(name) {
         let cookieValue = null;
@@ -112,14 +119,14 @@
         req.send(JSON.stringify(info))
     })
 
-
-
-
-
-
-
-
-
-
-
+    check_button.addEventListener('click', function(){
+        var req = new XMLHttpRequest()
+        req.open('POST', 'check-submit/')
+        req.addEventListener('load', function(){
+            document.querySelector('div#check-submit pre').innerHTML = JSON.stringify(JSON.parse(req.responseText), null, 4);
+        })
+        const csrftoken = getCookie('csrftoken')
+        req.setRequestHeader('X-CSRFToken', csrftoken)
+        req.send()
+    })
 </script>

@@ -71,6 +71,39 @@ POST 'submit/'
 
 401 Unauthorized
 
+# User Query Submitted Pathole
+
+## Request
+
+POST 'check-submit/'
+
+## Response
+
+### 1. Success
+
+200 OK
+
+```json
+{
+    "submit": [
+        {
+            "address": "xxx",
+            "size": 1~10,
+            "location": "middle/curb/..."
+        },
+        {
+            "address": "xxx",
+            "size": 1~10,
+            "location": "middle/curb/..."
+        }
+    ]
+}
+```
+
+### 2. Not Login
+
+401 Unauthorized
+
 # Test Part
 
 ## User 1

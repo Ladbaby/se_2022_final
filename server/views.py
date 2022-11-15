@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as Login
@@ -104,5 +104,22 @@ def submit(request):
         else:
             return HttpResponse(status = 400)
 
+    else:
+        return HttpResponse(status = 401)
+
+def check_submit(request):
+    if request.user.is_authenticated:
+        results = Pathole.objects.filter(user = request.user).values_list('address', 'size', 'location')
+        patholes = []
+        for result in results:
+            pathole = {}
+            pathole['address'] = result[0]
+            pathole['size'] = result[1]
+            pathole['location'] = result[2]
+            patholes.append(pathole)
+        response_content = {"submit": patholes}
+        response = JsonResponse(response_content)
+        response.status_code = 200
+        return response
     else:
         return HttpResponse(status = 401)
