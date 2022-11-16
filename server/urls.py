@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    re_path(r"^(js|css|img)\/(.*)$", views.serve)
+    re_path(r"^(js|css|img)\/(.*)$", views.serve),
+    path('node_modules/js-cookie/dist/js.cookie.mjs', views.serve_js_cookie)
 ]
 
 urlpatterns += [

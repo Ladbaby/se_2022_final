@@ -44,7 +44,10 @@
 </div>
 
 
-<script>
+
+<script type = module>
+    import Cookies from '../node_modules/js-cookie/dist/js.cookie.mjs'
+
     let login_button = document.querySelector('div#login button')
     let logout_button = document.querySelector('div#logout button')
     let submit_button = document.querySelector('div#submit button')
@@ -81,7 +84,8 @@
         })
         req.open('POST', 'login/');
         req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        const csrftoken = getCookie('csrftoken');
+        Cookies.set('name', 'fuck')
+        const csrftoken = Cookies.get('csrftoken')
         req.setRequestHeader('X-CSRFToken', csrftoken);
         req.send(JSON.stringify(login_info));
     })
@@ -92,7 +96,7 @@
             document.querySelector('div#logout div').innerHTML = req.status;
         })
         req.open('POST', 'logout/');
-        const csrftoken = getCookie('csrftoken');
+        const csrftoken = Cookies.get('csrftoken');
         req.setRequestHeader('X-CSRFToken', csrftoken);
         req.send();
     })
@@ -114,7 +118,7 @@
         })
         req.open('POST', 'submit/')
         req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
-        const csrftoken = getCookie('csrftoken')
+        const csrftoken = Cookies.get('csrftoken')
         req.setRequestHeader('X-CSRFToken', csrftoken)
         req.send(JSON.stringify(info))
     })
@@ -125,7 +129,7 @@
         req.addEventListener('load', function(){
             document.querySelector('div#check-submit pre').innerHTML = JSON.stringify(JSON.parse(req.responseText), null, 4);
         })
-        const csrftoken = getCookie('csrftoken')
+        const csrftoken = Cookies.get('csrftoken')
         req.setRequestHeader('X-CSRFToken', csrftoken)
         req.send()
     })
