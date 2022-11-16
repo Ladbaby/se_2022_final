@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as Login
 from django.contrib.auth import logout as Logout
+from django.views.decorators.csrf import ensure_csrf_cookie
 import os
 import json
 from pathlib import Path
@@ -13,15 +14,25 @@ from .models import Pathole
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+@ensure_csrf_cookie
 def index(request):
-    # dist_path = os.path.join(BASE_DIR, 'dist')
-    # file_name = 'index.html'
-    # file_path = os.path.join(dist_path, file_name)
-    file_path = os.path.join(BASE_DIR, 'server')
-    file_path = os.path.join(file_path, 'index.html')
+    dist_path = os.path.join(BASE_DIR, 'dist')
+    file_name = 'index.html'
+    file_path = os.path.join(dist_path, file_name)
+    # file_path = os.path.join(BASE_DIR, 'server')
+    # file_path = os.path.join(file_path, 'index.html')
     with open(file_path, 'r') as file:
         content = file.read()
         response = HttpResponse()
+        response.write(content)
+        return response
+
+def serve_js_cookie(request):
+    file_path = os.path.join(os.path.join(os.path.join(os.path.join(BASE_DIR, 'node_modules'), 'js-cookie'), 'dist'), 'js.cookie.mjs')
+    with open(file_path, 'r') as file:
+        content = file.read()
+        response = HttpResponse()
+        response['Content-Type'] = 'text/javascript'
         response.write(content)
         return response
 
