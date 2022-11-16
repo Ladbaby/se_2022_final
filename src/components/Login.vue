@@ -6,6 +6,7 @@
         placeholder="Name"
         type="text"
         class="input"
+        v-model="userName"
       />
       <input
         autocomplete="off"
@@ -13,6 +14,7 @@
         placeholder="Password"
         type="password"
         class="input"
+        v-model="password"
       />
       <div id="button-area">
         <button class="button" id="login-button" type="button" @click="login()">Sign in</button>
@@ -24,9 +26,15 @@
 <script>
 export default {
   name: "LoginWindow",
+  data() {
+    return {
+      userName: "",
+      password: ""
+    }
+  },
   methods: {
     login() {
-      this.$emit('login');
+      this.$emit('login', this.userName, this.password);
     },
     register() {
       this.$emit('register');

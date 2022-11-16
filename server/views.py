@@ -60,7 +60,7 @@ def serve(request, folder, file_name):
             response.write(content)
             return response
     else:
-        with open(file_path, 'r') as file:
+        with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
             response = HttpResponse()
             response['Content-Type'] = content_type

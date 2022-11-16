@@ -1,161 +1,4 @@
 <template>
-  <!-- <div id="navigator">
-    <div id="logo-div">
-      <img alt="Vue logo" src="../icons/logo.png" id="logo" draggable="false" />
-      <ul id="user-dropdown">
-        <li class="dropdown-item">User</li>
-      </ul>
-    </div>
-    <div id="search-box">
-      <input
-        autocomplete="off"
-        tabindex="1"
-        placeholder=" Search..."
-        type="text"
-        class="search-box-input"
-      />
-    </div>
-    <div id="item-controls">
-      <Transition name="buttons-up" mode="out-in">
-        <div
-          class="button"
-          id="add-button"
-          @click="addItem()"
-          v-if="!ifEditShow"
-        >
-          <img
-            class="icon"
-            srcset="
-              ../icons/add-32.png  1x,
-              ../icons/add-32.png  1.25x,
-              ../icons/add-32.png  1.5x,
-              ../icons/add-32.png  1.75x,
-              ../icons/add-64.png  2x,
-              ../icons/add-64.png  2.25x,
-              ../icons/add-64.png  2.5x,
-              ../icons/add-128.png 3x,
-              ../icons/add-128.png 3.5x
-            "
-            draggable="false"
-          />
-        </div>
-        <div
-          class="button"
-          id="check-button"
-          @click="confirmItem()"
-          v-else-if="ifEditShow"
-        >
-          <img
-            class="icon"
-            srcset="
-              ../icons/check-32.png  1x,
-              ../icons/check-32.png  1.25x,
-              ../icons/check-32.png  1.5x,
-              ../icons/check-32.png  1.75x,
-              ../icons/check-64.png  2x,
-              ../icons/check-64.png  2.25x,
-              ../icons/check-64.png  2.5x,
-              ../icons/check-128.png 3x,
-              ../icons/check-128.png 3.5x
-            "
-            draggable="false"
-          />
-        </div>
-      </Transition>
-      <Transition name="buttons-up" mode="out-in">
-        <div
-          class="button"
-          id="edit-button"
-          @click="editItem()"
-          v-if="!ifEditShow"
-        >
-          <img
-            class="icon"
-            srcset="
-              ../icons/edit-32.png  1x,
-              ../icons/edit-32.png  1.25x,
-              ../icons/edit-32.png  1.5x,
-              ../icons/edit-32.png  1.75x,
-              ../icons/edit-64.png  2x,
-              ../icons/edit-64.png  2.25x,
-              ../icons/edit-64.png  2.5x,
-              ../icons/edit-128.png 3x,
-              ../icons/edit-128.png 3.5x
-            "
-            draggable="false"
-          />
-        </div>
-        <div
-          class="button"
-          id="cancel-button"
-          @click="abortNewItem()"
-          v-else-if="ifEditShow"
-        >
-          <img
-            class="icon"
-            srcset="
-              ../icons/cancel-32.png  1x,
-              ../icons/cancel-32.png  1.25x,
-              ../icons/cancel-32.png  1.5x,
-              ../icons/cancel-32.png  1.75x,
-              ../icons/cancel-64.png  2x,
-              ../icons/cancel-64.png  2.25x,
-              ../icons/cancel-64.png  2.5x,
-              ../icons/cancel-128.png 3x,
-              ../icons/cancel-128.png 3.5x
-            "
-            draggable="false"
-          />
-        </div>
-      </Transition>
-      <Transition name="buttons-up" mode="out-in">
-        <div
-          class="button"
-          id="return-button"
-          @click="hideDetail()"
-          v-if="ifShowDetail"
-        >
-          <img
-            class="icon"
-            srcset="
-              ../icons/return-32.png  1x,
-              ../icons/return-32.png  1.25x,
-              ../icons/return-32.png  1.5x,
-              ../icons/return-32.png  1.75x,
-              ../icons/return-64.png  2x,
-              ../icons/return-64.png  2.25x,
-              ../icons/return-64.png  2.5x,
-              ../icons/return-128.png 3x,
-              ../icons/return-128.png 3.5x
-            "
-            draggable="false"
-          />
-        </div>
-        <div
-          class="button"
-          id="settings-button"
-          @click="openSettings()"
-          v-else-if="!ifShowDetail"
-        >
-          <img
-            class="icon"
-            srcset="
-              ../icons/settings-32.png  1x,
-              ../icons/settings-32.png  1.25x,
-              ../icons/settings-32.png  1.5x,
-              ../icons/settings-32.png  1.75x,
-              ../icons/settings-64.png  2x,
-              ../icons/settings-64.png  2.25x,
-              ../icons/settings-64.png  2.5x,
-              ../icons/settings-128.png 3x,
-              ../icons/settings-128.png 3.5x
-            "
-            draggable="false"
-          />
-        </div>
-      </Transition>
-    </div>
-  </div> -->
   <div id="top-bar">
     <el-menu
       default-active="1"
@@ -164,16 +7,12 @@
       @select="handleSelect"
       :ellipsis="false"
     >
-      <!-- <el-space spacer="|"> -->
       <el-menu-item index="1"
         ><el-avatar :size="55" :src="require('@/icons/logo.png')"
       /></el-menu-item>
       <el-menu-item index="2"
         ><el-icon size="55px"> <Setting /> </el-icon
       ></el-menu-item>
-      <!-- <el-menu-item index="3"
-          ><el-icon size="55px"> <Search /> </el-icon
-        ></el-menu-item> -->
       <el-menu-item index="3"
         ><el-icon size="55px"> <Plus /> </el-icon
       ></el-menu-item>
@@ -181,7 +20,6 @@
       <el-menu-item index="4">
         <el-icon size="55px" color="#FF0000"><SwitchButton /></el-icon>
       </el-menu-item>
-      <!-- </el-space> -->
     </el-menu>
     <transition name="el-zoom-in-center">
       <el-input
@@ -198,7 +36,6 @@
           </el-select>
         </template>
       </el-input>
-      <!-- <div v-else-if="!ifSearchShow" style="height:20px;"/> -->
     </transition>
   </div>
   <div id="body">
@@ -308,7 +145,6 @@
         </el-footer>
       </el-container>
       <div id="music-list-div" v-else-if="currentTab == 'main'">
-        <!-- <el-scrollbar> -->
         <ul id="music-list-ul">
           <li class="music-card" v-for="item in musicList" :key="item">
             <el-card :body-style="{ padding: '5px' }" :style="{
@@ -327,7 +163,6 @@
             </el-card>
           </li>
         </ul>
-        <!-- </el-scrollbar> -->
       </div>
       <el-container id="settings-div" v-else-if="currentTab == 'settings'">
         <el-aside width="200px" id="settings-aside">
@@ -367,7 +202,6 @@
   </div>
   <Transition name="add-item-up">
     <div id="tool-bar" v-if="currentTab == 'main'">
-      <!-- <Transition name="tool-bar-transition"> -->
       <el-space direction="vertical">
         <Transition name="tool-bar-transition">
           <el-button
@@ -416,16 +250,12 @@
           />
         </Transition>
       </el-space>
-      <!-- </Transition> -->
     </div>
   </Transition>
   <el-backtop :right="100" :bottom="100" />
 </template>
 
 <script>
-// import BaseHeader from "@/components/layouts/BaseHeader.vue"
-// import { mdiAccount } from '@mdi/js'
-// import SvgIcon from '@jamescoyle/vue-icon'
 import { ElMessage, ElMessageBox } from "element-plus";
 import axios from 'axios';
 // const axios = require("axios");
