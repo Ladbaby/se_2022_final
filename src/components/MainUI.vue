@@ -395,6 +395,7 @@ export default {
               type: "success",
               message: "Successfully upload",
             });
+            this.showHistory();
             this.stepActive = 0;
             this.currentTab = "main";
           } else {

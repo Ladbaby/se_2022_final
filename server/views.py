@@ -27,14 +27,14 @@ def index(request):
         response.write(content)
         return response
 
-def serve_js_cookie(request):
-    file_path = os.path.join(os.path.join(os.path.join(os.path.join(BASE_DIR, 'node_modules'), 'js-cookie'), 'dist'), 'js.cookie.mjs')
-    with open(file_path, 'r') as file:
-        content = file.read()
-        response = HttpResponse()
-        response['Content-Type'] = 'text/javascript'
-        response.write(content)
-        return response
+# def serve_js_cookie(request):
+#     file_path = os.path.join(os.path.join(os.path.join(os.path.join(BASE_DIR, 'node_modules'), 'js-cookie'), 'dist'), 'js.cookie.mjs')
+#     with open(file_path, 'r') as file:
+#         content = file.read()
+#         response = HttpResponse()
+#         response['Content-Type'] = 'text/javascript'
+#         response.write(content)
+#         return response
 
 def serve(request, folder, file_name):
     dist_path = os.path.join(BASE_DIR, 'dist')
