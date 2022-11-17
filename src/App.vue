@@ -56,14 +56,13 @@ export default {
     },
     async login(userName, password) {
       var csrftoken = Cookies.get("csrftoken");
-      // let loginResult;
       const loginResult = await axios
         .post(
           "login/",
           {
             auth: {
               "user-name": userName,
-              password: password,
+              "password": password,
             },
           },
           {

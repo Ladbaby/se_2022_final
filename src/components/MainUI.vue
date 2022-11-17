@@ -10,9 +10,6 @@
       <el-menu-item index="1"
         ><el-avatar :size="55" :src="require('@/icons/logo.png')"
       /></el-menu-item>
-      <el-menu-item index="2"
-        ><el-icon size="55px"> <Setting /> </el-icon
-      ></el-menu-item>
       <el-menu-item index="3"
         ><el-icon size="55px"> <Plus /> </el-icon
       ></el-menu-item>
@@ -21,22 +18,6 @@
         <el-icon size="55px" color="#FF0000"><SwitchButton /></el-icon>
       </el-menu-item>
     </el-menu>
-    <transition name="el-zoom-in-center">
-      <el-input
-        v-model="input3"
-        placeholder="Please input"
-        id="search-box"
-        v-if="ifSearchShow"
-      >
-        <template #prepend>
-          <el-select v-model="searchCat" placeholder="All" style="width: 115px">
-            <el-option label="All" value="1" />
-            <el-option label="Artist" value="2" />
-            <el-option label="Album" value="3" />
-          </el-select>
-        </template>
-      </el-input>
-    </transition>
   </div>
   <div id="body">
     <Transition name="add-item-up">
@@ -48,77 +29,80 @@
             id="step"
             align-center
           >
-            <el-step title="Step 1" description="upload files" />
-            <el-step title="Step 2" description="specify artist" />
-            <el-step title="Step 3" description="specify album" />
+            <el-step title="Step 1" description="street address" />
+            <el-step title="Step 2" description="pothole size" />
+            <el-step title="Step 3" description="pothole location" />
           </el-steps>
         </el-header>
         <el-main id="upload-main">
           <Transition name="slide-up" mode="out-in">
-          <el-upload
-            id="upload-demo"
-            drag
-            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-            multiple
-            :auto-upload="false"
-            :on-change="handleChange"
-            v-model:file-list="fileList"
-            v-if="stepActive == 0"
-          >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-            <div class="el-upload__text">
-              Drop file here or <em>click to upload</em>
+            <div v-if="stepActive == 0" id="upload-address">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <center>
+                    <h2>Enter street address:</h2>
+                  </center>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <center>
+                    <input
+                      autocomplete="off"
+                      tabindex="1"
+                      placeholder="street address"
+                      type="text"
+                      class="input"
+                      v-model="streetAddress"
+                    />
+                  </center>
+                </el-col>
+              </el-row>
             </div>
-            <template #tip>
-              <div class="el-upload__tip">
-                jpg/png files with a size less than 500kb
-              </div>
-            </template>
-          </el-upload>
-          <div v-else-if="stepActive == 1" id="upload-artist-div">
-            <el-row :gutter="20">
-              <el-col :span="24">
-                <center>
-                  <h2>Enter artist's name:</h2>
-                </center>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="24">
-                <center>
-                  <input
-                    autocomplete="off"
-                    tabindex="1"
-                    placeholder="artist's name"
-                    type="text"
-                    class="input"
-                  />
-                </center>
-              </el-col>
-            </el-row>
-          </div>
-          <div v-else-if="stepActive == 2" id="upload-album-div">
-            <el-row :gutter="20">
-              <el-col :span="24">
-                <center>
-                  <h2>Enter album's name:</h2>
-                </center>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="24">
-                <center>
-                  <input
-                    autocomplete="off"
-                    tabindex="1"
-                    placeholder="album's name"
-                    type="text"
-                    class="input"
-                  />
-                </center>
-              </el-col>
-            </el-row>
-          </div>
+            <div v-else-if="stepActive == 1" id="upload-artist-div">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <center>
+                    <h2>Enter pothole size (1~10):</h2>
+                  </center>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <center>
+                    <el-input-number
+                      v-model="potholeSize"
+                      :min="1"
+                      :max="10"
+                      size="large"
+                    />
+                  </center>
+                </el-col>
+              </el-row>
+            </div>
+            <div v-else-if="stepActive == 2" id="upload-album-div">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <center>
+                    <h2>Enter pothole location (e.g., middle, curb):</h2>
+                  </center>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <center>
+                    <input
+                      autocomplete="off"
+                      tabindex="1"
+                      placeholder="pothole location"
+                      type="text"
+                      class="input"
+                      v-model="location"
+                    />
+                  </center>
+                </el-col>
+              </el-row>
+            </div>
           </Transition>
         </el-main>
         <el-footer>
@@ -145,120 +129,71 @@
         </el-footer>
       </el-container>
       <div id="music-list-div" v-else-if="currentTab == 'main'">
-        <ul id="music-list-ul">
-          <li class="music-card" v-for="item in musicList" :key="item">
-            <el-card :body-style="{ padding: '5px' }" :style="{
-          borderRadius: '10px'}" shadow="always" Round>
-              <img
-                src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                class="image"
-              />
-              <div style="padding: 14px">
-                <span>Yummy hamburger</span>
-                <div class="bottom">
-                  <time class="time">{{ currentDate }}</time>
-                  <el-button text class="button">Operating</el-button>
-                </div>
-              </div>
-            </el-card>
-          </li>
-        </ul>
+        <!-- <ul id="music-list-ul"> -->
+        <!-- <li class="music-card" v-for="item in musicList" :key="item"> -->
+        <el-card class="box-card">
+          <template #header>
+            <div class="card-header">
+              <span><h1>Upload History</h1></span>
+            </div>
+          </template>
+          <div v-for="o in musicList.length" :key="o" class="history-item">
+            <el-descriptions
+              class="history-item-description"
+              :title="'Upload Record ' + o"
+              :column="3"
+              size="32px"
+              border
+            >
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon style="8px">
+                      <office-building />
+                    </el-icon>
+                    Street Address
+                  </div>
+                </template>
+                {{ this.musicList[o - 1]["address"] }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon style="8px">
+                      <Rank />
+                    </el-icon>
+                    Pathole Size
+                  </div>
+                </template>
+                <el-tag size="small">{{ this.musicList[o - 1]["size"] }}</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template #label>
+                  <div class="cell-item">
+                    <el-icon style="8px">
+                      <Position />
+                    </el-icon>
+                    Location
+                  </div>
+                </template>
+                {{ this.musicList[o - 1]["location"] }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </div>
+        </el-card>
+
+        <!-- </li> -->
+        <!-- </ul> -->
       </div>
-      <el-container id="settings-div" v-else-if="currentTab == 'settings'">
-        <el-aside width="200px" id="settings-aside">
-          <el-scrollbar>
-            <el-menu :default-openeds="['1', '3']" id="settings-menu">
-              <el-menu-item index="1">
-                <template #title>
-                  <el-icon><User /></el-icon>User
-                </template>
-              </el-menu-item>
-              <el-menu-item index="2">
-                <template #title>
-                  <el-icon><PictureRounded /></el-icon>Appearance
-                </template>
-              </el-menu-item>
-            </el-menu>
-          </el-scrollbar>
-        </el-aside>
-        <el-main id="settings-main">
-          <el-scrollbar>
-            <el-row :gutter="20">
-              <el-col :span="4">
-                <el-avatar
-                  src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                  :size="100"
-                />
-              </el-col>
-              <el-col :span="4">
-                <h2>Administrator</h2>
-              </el-col>
-            </el-row>
-            <hr style="width: 95%" />
-          </el-scrollbar>
-        </el-main>
-      </el-container>
     </Transition>
   </div>
-  <Transition name="add-item-up">
-    <div id="tool-bar" v-if="currentTab == 'main'">
-      <el-space direction="vertical">
-        <Transition name="tool-bar-transition">
-          <el-button
-            icon="Search"
-            size="large"
-            circle
-            @click="showSearchBox"
-            v-if="currentTab == 'main'"
-          />
-        </Transition>
-        <Transition name="tool-bar-transition">
-          <el-button
-            type="primary"
-            icon="Edit"
-            size="large"
-            circle
-            v-if="currentTab == 'main'"
-          />
-        </Transition>
-        <Transition name="tool-bar-transition">
-          <el-button
-            type="success"
-            icon="Check"
-            size="large"
-            circle
-            @click="handleCheck"
-            v-if="currentTab == 'upload'"
-          />
-        </Transition>
-        <Transition name="tool-bar-transition">
-          <el-button
-            type="warning"
-            icon="Star"
-            size="large"
-            circle
-            v-if="currentTab == 'main'"
-          />
-        </Transition>
-        <Transition name="tool-bar-transition">
-          <el-button
-            type="danger"
-            icon="Delete"
-            size="large"
-            circle
-            v-if="currentTab == 'main'"
-          />
-        </Transition>
-      </el-space>
-    </div>
-  </Transition>
   <el-backtop :right="100" :bottom="100" />
 </template>
 
 <script>
 import { ElMessage, ElMessageBox } from "element-plus";
-import axios from 'axios';
-// const axios = require("axios");
+import Cookies from "js-cookie";
+import axios from "axios";
 
 export default {
   name: "MainUI",
@@ -270,26 +205,54 @@ export default {
         // mdiAccount,
       },
       musicList: [
-        "music1",
-        "music2",
-        "music3",
-        "music4",
-        "music5",
-        "music6",
-        "music7",
-        "music8",
-        "music9",
-        "music10",
-        "music11",
+        {
+          address: "scut",
+          size: 114514,
+          location: "middle",
+        },
+        {
+          address: "scut",
+          size: 114514,
+          location: "middle",
+        },
+        {
+          address: "scut",
+          size: 114514,
+          location: "middle",
+        },
+        {
+          address: "scut",
+          size: 114514,
+          location: "middle",
+        },
+        {
+          address: "scut",
+          size: 114514,
+          location: "middle",
+        },
+        {
+          address: "scut",
+          size: 114514,
+          location: "middle",
+        },
+        {
+          address: "scut",
+          size: 114514,
+          location: "middle",
+        },
       ],
       fileList: [],
       searchCat: "",
       stepActive: 0,
+      potholeSize: 1,
+      streetAddress: "",
+      location: "",
     };
   },
   components: {
     // SvgIcon,
   },
+
   methods: {
     login() {
       this.$emit("login");
@@ -321,8 +284,6 @@ export default {
     handleSelect(key) {
       if (key == 1) {
         this.currentTab = "main";
-      } else if (key == 2) {
-        this.currentTab = "settings";
       } else if (key == 3) {
         this.currentTab = "upload";
         this.ifSearchShow = false;
@@ -370,8 +331,81 @@ export default {
     back() {
       this.stepActive > 0 ? this.stepActive-- : 0;
     },
-    next() {
-      this.stepActive < 2 ? this.stepActive++ : 2;
+    async next() {
+      if (this.stepActive == 2) {
+        const messageResult = await ElMessageBox.confirm(
+          "Confirm to submit the pothole report?",
+          "Warning",
+          {
+            confirmButtonText: "OK",
+            cancelButtonText: "Cancel",
+            type: "warning",
+          }
+        )
+          .then(() => {
+            return "success";
+            // ElMessage({
+            //   type: "success",
+            //   message: "Successfully upload",
+            // });
+          })
+          .catch(() => {
+            return "failure";
+            // ElMessage({
+            //   type: "info",
+            //   message: "Upload canceled",
+            // });
+          });
+        var csrftoken = Cookies.get("csrftoken");
+        if (messageResult == "success") {
+          let streetAddress = this.streetAddress;
+          let potholeSize = this.potholeSize;
+          let location = this.location;
+          const submitResult = await axios
+            .post(
+              "submit/",
+              {
+                pathole: {
+                  address: streetAddress,
+                  size: potholeSize,
+                  location: location,
+                },
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json;charset=UTF-8",
+                  "X-CSRFToken": csrftoken,
+                },
+              }
+            )
+            .then(function (response) {
+              console.log(response);
+              return response;
+            })
+            .catch(function (error) {
+              console.log(error);
+              return error;
+            });
+          let statusCode = submitResult["status"];
+          if (statusCode == "200") {
+            ElMessage({
+              type: "success",
+              message: "Successfully upload",
+            });
+            this.stepActive = 0;
+            this.currentTab = "main";
+          } else {
+            ElMessage.error("Upload failed! Fields' value cannot be empty!");
+          }
+        } else if (messageResult == "failure") {
+          ElMessage({
+            type: "info",
+            message: "Upload canceled",
+          });
+        }
+      } else {
+        this.stepActive < 2 ? this.stepActive++ : 2;
+      }
     },
   },
 };
@@ -743,8 +777,8 @@ input.search-box-input:focus {
   /* height: 100%; */
 }
 #music-list-div {
-  /* width: 100%; */
-  /* height: 100%; */
+  width: 100%;
+  height: 100%;
   transition: all 0.5s ease-in-out;
   overflow: auto;
 }
@@ -776,7 +810,7 @@ input.search-box-input:focus {
   padding-top: 80px;
 }
 .music-card {
-  display: inline-block;
+  display: block;
   margin: 20px;
   transition: box-shadow 0.2s, transform 0.2s;
   border-radius: 10px;
@@ -834,9 +868,10 @@ input.search-box-input:focus {
   background-color: hsla(0, 0%, 100%, 0.9) !important;
   overflow: hidden;
 }
-#upload-artist-div, #upload-album-div {
-  width:100%;
-  height:100%;
+#upload-artist-div,
+#upload-album-div {
+  width: 100%;
+  height: 100%;
 }
 input.input {
   border-radius: 20px;
@@ -879,5 +914,23 @@ input.input:focus {
 .slide-up-leave-active {
   animation: zoomOut;
   animation-duration: 0.2s;
+}
+.box-card {
+  margin-top: 64px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: hsla(0, 0%, 100%, 0.85) !important;
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+.el-descriptions {
+  margin-top: 20px;
+}
+.cell-item {
+  /* display: flex; */
+  align-items: center;
+}
+.history-item-description {
+  margin-top: 20px;
 }
 </style>

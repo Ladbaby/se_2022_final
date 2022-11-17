@@ -108,7 +108,7 @@ def submit(request):
         user = request.user
 
         pathole = Pathole.create(user, address, size, location, district, priority)
-        
+
         if pathole is not None:
             pathole.save()
             return HttpResponse(status = 200)
