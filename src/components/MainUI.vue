@@ -140,7 +140,7 @@
           <div v-for="o in musicList.length" :key="o" class="history-item">
             <el-descriptions
               class="history-item-description"
-              :title="'Upload Record ' + o"
+              :title="'Record ' + o"
               :column="3"
               size="32px"
               border
@@ -165,7 +165,9 @@
                     Pathole Size
                   </div>
                 </template>
-                <el-tag size="small">{{ this.musicList[o - 1]["size"] }}</el-tag>
+                <el-tag size="small">{{
+                  this.musicList[o - 1]["size"]
+                }}</el-tag>
               </el-descriptions-item>
               <el-descriptions-item>
                 <template #label>
@@ -197,6 +199,9 @@ import axios from "axios";
 
 export default {
   name: "MainUI",
+  props: {
+    ifLoggedIn: Boolean,
+  },
   data() {
     return {
       currentTab: "main", // main, settings, upload
@@ -248,6 +253,17 @@ export default {
       streetAddress: "",
       location: "",
     };
+  },
+  watch: {
+    ifLoggedIn: {
+      handler(newValue) {
+        console.log(newValue);
+        if (newValue == true) {
+          this.showHistory();
+        }
+      },
+      immediate: true,
+    },
   },
   components: {
     // SvgIcon,
@@ -314,19 +330,6 @@ export default {
     handleChange(uploadFile) {
       this.fileList.push(uploadFile);
       console.log(uploadFile);
-    },
-    handleCheck() {
-      axios
-        .post("/upload", {
-          data: this.$data,
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-          return;
-        });
     },
     back() {
       this.stepActive > 0 ? this.stepActive-- : 0;
@@ -405,6 +408,35 @@ export default {
         }
       } else {
         this.stepActive < 2 ? this.stepActive++ : 2;
+      }
+    },
+    async showHistory() {
+      var csrftoken = Cookies.get("csrftoken");
+      let result = await axios
+        .post(
+          "check-submit/",
+          {},
+          {
+            headers: {
+              "X-CSRFToken": csrftoken,
+            },
+          }
+        )
+        .then(function (response) {
+          console.log(response);
+          return response;
+        })
+        .catch(function (error) {
+          console.log(error);
+          return error;
+        });
+      let statusCode = result["status"];
+      console.log(statusCode);
+      if (statusCode == "200") {
+        console.log(result["data"]);
+        this.musicList = result["data"]["submit"]
+      } else {
+        ElMessage.error("Fail to load record history, unauthorized user!");
       }
     },
   },
